@@ -5,11 +5,11 @@ provider "vault" {
 
 variable "token" {}
 
-data "vault_kv_secret" "secret_data" {
+data "vault_generic_secret" "secret_data" {
   path = "test/data/dem-ssh"
 }
 
 resource "local_file" "secret" {
   filename = "/tmp/secret"
-  content = replace(replace(jsonencode(data.vault_kv_secret.secret_data.data["password"]), "\"", ""), ":", "=")
+  content = replace(replace(jsonencode(data.vault_generic_secret.secret_data.data["password"]), "\"", ""), ":", "=")
 }
