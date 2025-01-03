@@ -11,5 +11,5 @@ data "vault_kv_secret" "secret_data" {
 
 resource "local_file" "secret" {
   filename = "/tmp/secret"
-  content = data.vault_kv_secret.secret_data.data["password"]
+  content = replace(replace(jsonencode(data.vault_kv_secret.secret_data.data), "\"", ""), ":", "=")
 }
