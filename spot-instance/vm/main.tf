@@ -95,6 +95,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   resource_group_name = data.azurerm_resource_group.main.name
   network_interface_ids = [azurerm_network_interface.main.id]
   size                = "Standard_DS1_v2"
+  admin_username = "adminuser"
 
   priority        = "Spot"
   eviction_policy = "Deallocate" # or "Delete"
@@ -112,6 +113,9 @@ resource "azurerm_linux_virtual_machine" "example" {
 	version   = "latest"
   }
 
-  admin_username = "adminuser"
-  admin_password = "Password1234!"
+
+  admin_ssh_key {
+	username = "adminuser"
+	public_key = file("/Users/keyurpatel/.ssh/id_rsa.pub")
+  }
 }
