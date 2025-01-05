@@ -9,8 +9,6 @@ module "vm" {
   for_each = var.tool
   source = "./vm"
   component = each.key
-  ssh_username = var.ssh_username
-  ssh_password = var.ssh_password
   port = each.value["port"]
   
 }
@@ -24,9 +22,6 @@ variable "tool" {
 }
 
 #variables
-variable "ssh_username" {}
-variable "ssh_password" {}
-
 
 
 terraform {
