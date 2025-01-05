@@ -89,33 +89,27 @@ resource "azurerm_dns_a_record" "public" {
   records = [azurerm_public_ip.main.ip_address]
 }
 
-resource "azurerm_virtual_machine" "example" {
+resource "azurerm_linux_virtual_machine" "example" {
   name                = "example-vm"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size             = "Standard_D2s_v3"
+  size                = "Standard_DS1_v2"
+
   priority        = "Spot"
   eviction_policy = "Deallocate" # or "Delete"
 
-  storage_os_disk {
-	name              = "example-osdisk"
-	caching           = "ReadWrite"
-	create_option     = "FromImage"
-	managed_disk_type = "Standard_LRS"
-  }
-
-  os_profile {
-	computer_name  = "test"
-	admin_username = "adminuser"
-	admin_password = "Password1234!"
-  }
-
-  os_profile_linux_config {
-	disable_password_authentication = false
+  os_disk {
+	name                 = "example-osdisk"
+	caching              = "ReadWrite"
+	storage_account_type = "Standard_LRS"
+	create_option        = "FromImage"
   }
 
   source_image_reference {
 	id = "/subscriptions/4b236e6d-2c9a-4cb2-90a2-30a5377d8eb2/resourceGroups/azuredevops/providers/Microsoft.Compute/galleries/azawsdevops/images/azawsdevops/versions/1.0.0"
   }
+
+  admin_username = "adminuser"
+  admin_password = "Password1234!"
 }
