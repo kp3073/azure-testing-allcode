@@ -103,11 +103,13 @@ resource "azurerm_linux_virtual_machine" "example" {
 	name                 = "example-osdisk"
 	caching              = "ReadWrite"
 	storage_account_type = "Standard_LRS"
-	create_option        = "FromImage"
   }
 
   source_image_reference {
-	id = "/subscriptions/4b236e6d-2c9a-4cb2-90a2-30a5377d8eb2/resourceGroups/azuredevops/providers/Microsoft.Compute/galleries/azawsdevops/images/azawsdevops/versions/1.0.0"
+	publisher = "Canonical"
+	offer     = "UbuntuServer"
+	sku       = "18.04-LTS"
+	version   = "latest"
   }
 
   admin_username = "adminuser"
