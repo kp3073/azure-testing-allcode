@@ -1,3 +1,25 @@
+provider "azurerm" {
+  features {}
+  subscription_id = "4b236e6d-2c9a-4cb2-90a2-30a5377d8eb2"
+}
+
+
+data "azurerm_resource_group" "main" {
+  name = "azuredevops"
+}
+
+
+data "azurerm_subnet" "main" {
+  name                 = "default"
+  resource_group_name  = data.azurerm_resource_group.main.name
+  virtual_network_name = "azure-network"
+}
+
+variable "component" {
+  default = "test"
+}
+
+
 resource "azurerm_public_ip" "main" {
   name                = var.component
   resource_group_name = data.azurerm_resource_group.main.name
@@ -21,22 +43,11 @@ resource "azurerm_network_security_group" "main" {
 	access                     = "Allow"
 	protocol                   = "Tcp"
 	source_port_range          = "*"
-	destination_port_range     = "22"
+	destination_port_range     = "*"
 	source_address_prefix      = "*"
 	destination_address_prefix = "*"
   }
-
-  security_rule {
-	name                       = "vault"
-	priority                   = 101
-	direction                  = "Inbound"
-	access                     = "Allow"
-	protocol                   = "Tcp"
-	source_port_range          = "*"
-	destination_port_range     = var.port
-	source_address_prefix      = "*"
-	destination_address_prefix = "*"
-  }
+  
   
   tags = {
 	environment = var.component
