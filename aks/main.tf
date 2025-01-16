@@ -16,7 +16,7 @@ data "azurerm_subnet" "main" {
 
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                = "example-aks1"
+  name                = "k8s-cluster"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   dns_prefix          = "cluster"
