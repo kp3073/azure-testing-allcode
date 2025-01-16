@@ -13,8 +13,6 @@ data "azurerm_subnet" "main" {
   resource_group_name  = data.azurerm_resource_group.main.name
 }
 
-
-
 resource "azurerm_kubernetes_cluster" "main" {
   name                = "k8s-cluster"
   location            = data.azurerm_resource_group.main.location
