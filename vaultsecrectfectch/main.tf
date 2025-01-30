@@ -11,5 +11,5 @@ data "vault_generic_secret" "secret_data" {
 
 resource "local_file" "secret" {
   filename = "infra/ssh"
-  content = replace(replace(jsonencode(data.vault_generic_secret.secret_data.data["username"]), "\"", ""), ":", "=")
+  content = replace(replace(jsonencode(data.vault_generic_secret.secret_data.data["admin_username"]), "\"", ""), ":", "=")
 }
