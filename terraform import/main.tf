@@ -32,3 +32,7 @@ provider "azurerm" {
 resource "azurerm_virtual_machine" "existing_vm" {
   # Placeholder for the VM configuration
 }
+
+resource "azurerm_linux_virtual_machine" "existing_spot_vm" {
+  # Placeholder for the Spot VM configuration
+}
