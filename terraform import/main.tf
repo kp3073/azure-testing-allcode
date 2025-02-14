@@ -41,10 +41,10 @@ size = "Standard_DS1_v2"  # Replace with your desired VM size
 admin_username = "centos"        # Replace with your admin username
 network_interface_ids = [azurerm_network_interface.main.id]
 
-admin_ssh_key {
-  username = "adminuser"
-  public_key = file("~/.ssh/id_rsa.pub")  # Replace with your SSH public key path
-}
+  admin_ssh_key {
+    username = "adminuser"
+    public_key = file("/Users/keyurpatel/Library/CloudStorage/OneDrive-AlignTechnology,Inc/Documents/id_rsa.pub")
+  }
 
 os_disk {
 name = "my-new-spot-vm-osdisk"  # Change the OS disk name
