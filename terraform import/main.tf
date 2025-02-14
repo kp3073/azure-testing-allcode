@@ -41,21 +41,22 @@ size = "Standard_DS1_v2"  # Replace with your desired VM size
 admin_username = "centos"        # Replace with your admin username
 network_interface_ids = [azurerm_network_interface.main.id]
 
-os_profile {
-computer_name = test-vm
-admin_username = centos
-admin_password = "Adminadmin1234$"
+admin_ssh_key {
+  username = "adminuser"
+  public_key = file("~/.ssh/id_rsa.pub")  # Replace with your SSH public key path
 }
 
 os_disk {
 name = "my-new-spot-vm-osdisk"  # Change the OS disk name
 caching = "ReadWrite"
-create_option = "FromImage"
 storage_account_type = "Standard_LRS"
 }
-
-storage_image_reference {
-id = "/subscriptions/4b236e6d-2c9a-4cb2-90a2-30a5377d8eb2/resourceGroups/azuredevops/providers/Microsoft.Compute/galleries/azawsdevops/images/azawsdevops/versions/1.0.0"
+  
+source_image_reference {
+  publisher = "Canonical"
+  offer     = "UbuntuServer"
+  sku       = "18.04-LTS"
+  version   = "latest"
 }
 
 priority = "Spot"  # This makes it a Spot VM
