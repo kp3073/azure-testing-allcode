@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: psu
+  labels:
+    app: psu
+spec:
+  type: LoadBalancer
+  selector:
+    app: psu
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psu
+  labels:
+    app: psu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: psu
+  template:
+    metadata:
+      labels:
+        app: psu
+    spec:
+      containers:
+      - name: psu
+        image: docker.io/kp3073/psu:latest
+        ports:
+        - containerPort: 5000
