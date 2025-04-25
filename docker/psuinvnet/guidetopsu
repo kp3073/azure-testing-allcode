@@ -1,0 +1,57 @@
+RESOURCE_GROUP="azuredevops"
+LOCATION="ukwest"  # Make sure this matches your --location
+CONTAINER_NAME="powershellniversal"
+IMAGE_NAME="ironmansoftware/universal"  # This is a Linux image
+VNET_NAME="azure-network"
+SUBNET_NAME="aci-subnet"  # Must be pre-created with delegation
+
+### Delete existing container (if needed)-----------
+az container delete --resource-group "azuredevops" --name "powershelluniversal" --yes
+
+####View Container Details-----------
+
+az container show \
+  --resource-group "azuredevops" \
+  --name "docker" \
+  --output table
+
+## WITH PUBLIC IP## ----------------
+az container create \
+  --resource-group "azuredevops" \
+  --name "powershelluniversal" \
+  --image "ironmansoftware/universal" \
+  --ports 5000 \
+  --os-type Linux \
+  --cpu 1 \
+  --memory 1.5 \
+  --ip-address Public \
+  --location "ukwest"
+  
+  ##PRIVATE IP##-------------------------
+az container create \
+  --resource-group "azuredevops" \
+  --name "powershelluniversal" \
+  --image "ironmansoftware/universal" \
+  --ports 5000 \
+  --os-type Linux \
+  --location "ukwest" \
+  --cpu 1 \
+  --memory 1.5 \
+  --vnet "azure-network" \
+  --subnet "aci-subnet"
+  
+  
+# Forward local port 8080 to container port 5000---------------
+az container port-forward \
+  --resource-group "azuredevops" \
+  --name "powershelluniversal" \
+  --local-port 8080 \
+  --port 5000
+  
+  
+  
+  ####Connect to Container (Interactive Shell)----------------
+  az container exec \
+    --resource-group "azuredevops" \
+    --name "docker" \
+    --exec-command "/bin/bash"
