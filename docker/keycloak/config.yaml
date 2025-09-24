@@ -1,0 +1,9 @@
+
+
+tunnel: e47f03a5-3512-4b36-8c01-de5eb0c692a8
+credentials-file: /Users/keyurpatel/.cloudflared/e47f03a5-3512-4b36-8c01-de5eb0c692a8.json
+
+ingress:
+- hostname: keycloak.iamdevops.tech
+  service: http://localhost:8080
+- service: http_status:404
